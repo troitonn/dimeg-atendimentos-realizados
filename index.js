@@ -31,10 +31,10 @@ app.get('/relatorio', async (req, res) => {
     return res.status(400).json({ error: 'Parâmetro obrigatório: report' });
   }
 
-  // Definindo intervalo fixo: de hoje até 59 dias à frente (total 60 dias)
+  // Definindo intervalo de 60 dias para trás até hoje
   const hoje = new Date();
-  const dataInicioFinal = formatarData(hoje);
-  const dataFimFinal = formatarData(adicionarDias(hoje, 59));
+  const dataFimFinal = formatarData(hoje); // hoje
+  const dataInicioFinal = formatarData(adicionarDias(hoje, -59)); // 59 dias atrás
 
   const payload = {
     report,

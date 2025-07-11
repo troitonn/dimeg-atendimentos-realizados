@@ -49,7 +49,7 @@ app.get('/relatorio', async (req, res) => {
       {
         headers: {
           'Content-Type': 'application/json',
-          'x-access-token': process.env.FEEGOW_TOKEN
+          'x-access-token': eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJmZWVnb3ciLCJhdWQiOiJwdWJsaWNhcGkiLCJpYXQiOjE3NDY0NzQxNTcsImxpY2Vuc2VJRCI6NDA2NDR9.BIlS45y-hk3JcIqQXJnsTsMHzwSV21OI-J71ourOH8QW
         }
       }
     );

@@ -1,5 +1,3 @@
-require('dotenv').config(); // Carrega variáveis de ambiente
-
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
@@ -25,20 +23,15 @@ function adicionarDias(date, dias) {
   return novaData;
 }
 
-// Middleware simples para log de requisições
-app.use((req, res, next) => {
-  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
-  next();
-});
-
 // Rota para gerar relatório Feegow
-app.post('/relatorio', async (req, res) => {
-  const { report } = req.body;
+app.get('/relatorio', async (req, res) => {
+  const { report } = req.query;
 
-  if (!report || typeof report !== 'string' || report.trim() === '') {
-    return res.status(400).json({ error: 'Parâmetro "report" inválido ou ausente.' });
+  if (!report) {
+    return res.status(400).json({ error: 'Parâmetro obrigatório: report' });
   }
 
+  // Definindo intervalo de 60 dias para trás até hoje
   const hoje = new Date();
   const dataFimFinal = formatarData(hoje); // hoje
   const dataInicioFinal = formatarData(adicionarDias(hoje, -59)); // 59 dias atrás
@@ -63,11 +56,7 @@ app.post('/relatorio', async (req, res) => {
 
     res.json(response.data);
   } catch (error) {
-    console.error('Erro na requisição Feegow:', {
-      status: error.response?.status,
-      data: error.response?.data,
-      message: error.message
-    });
+    console.error(error.response?.data || error.message);
     res.status(500).json({ error: 'Erro ao obter dados do Feegow' });
   }
 });
